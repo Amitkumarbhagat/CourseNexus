@@ -50,7 +50,13 @@ public class Course {
     @JsonIgnore
     private List<Learning> learnings;
 
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Payment> payments;
 
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Discussion> discussions;
 
     @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean isApproved = false;
