@@ -25,7 +25,10 @@ public class Learning {
     @JoinColumn(name = "user_id")
     private User user;
 
-
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "course_id")
+    private Course course;
 
     @Column(name = "progress_percent")
     private int progressPercent = 0;
