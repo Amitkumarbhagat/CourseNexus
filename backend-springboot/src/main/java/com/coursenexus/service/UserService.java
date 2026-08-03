@@ -33,6 +33,9 @@ public class UserService {
         if (user.getRole() == null) {
             user.setRole(com.coursenexus.enums.UserRole.USER);
         }
+        if (user.getIsActive() == null) {
+            user.setIsActive(true);
+        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }

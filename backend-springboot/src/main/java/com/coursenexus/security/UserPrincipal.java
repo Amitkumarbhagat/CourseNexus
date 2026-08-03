@@ -31,7 +31,7 @@ public class UserPrincipal implements UserDetails {
                 user.getEmail(),
                 user.getPassword(),
                 Collections.singletonList(authority),
-                user.getIsActive()
+                user.getIsActive() != null ? user.getIsActive() : true
         );
     }
 
