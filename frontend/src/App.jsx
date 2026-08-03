@@ -42,7 +42,7 @@ function App() {
           <Route path='/discussion/:id' element={<ProtectedRoute><Forum /></ProtectedRoute>} />
           <Route path='/profile' element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path='/Learnings' element={<ProtectedRoute><Learnings /></ProtectedRoute>} />
-          <Route path='/Performance' element={<ProtectedRoute><Performance /></ProtectedRoute>} />
+
           
           {/* Instructor Only Routes */}
           <Route path='/instructor' element={<ProtectedRoute requiredRole="ROLE_INSTRUCTOR"><InstructorDashboard /></ProtectedRoute>} />
