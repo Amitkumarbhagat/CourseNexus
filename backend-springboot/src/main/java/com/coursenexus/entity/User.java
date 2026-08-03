@@ -76,7 +76,7 @@ public class User {
     private String github_url;
     @Lob
     @Column(columnDefinition = "LONGBLOB")
-    private byte[]gi profileImage;
+    private byte[] profileImage;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Learning> learningCourses;
