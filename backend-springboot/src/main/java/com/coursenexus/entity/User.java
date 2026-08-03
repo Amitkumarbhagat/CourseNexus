@@ -1,5 +1,6 @@
 package com.coursenexus.entity;
 import com.coursenexus.enums.UserRole;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -54,9 +55,12 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @Builder.Default
     private UserRole role = UserRole.USER;
 
     @Column(name = "is_active")
+    @Builder.Default
+    @JsonProperty("isActive")
     private Boolean isActive = true;
 
     private String dob;
@@ -72,7 +76,7 @@ public class User {
     private String github_url;
     @Lob
     @Column(columnDefinition = "LONGBLOB")
-    private byte[] profileImage;
+    private byte[]gi profileImage;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Learning> learningCourses;

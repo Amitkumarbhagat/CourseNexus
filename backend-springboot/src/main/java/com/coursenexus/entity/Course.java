@@ -59,6 +59,7 @@ public class Course {
     private List<Discussion> discussions;
 
     @Column(nullable = false, columnDefinition = "boolean default false")
-    private boolean isApproved = false;
+    @JsonProperty("approved")
+    private Boolean isApproved = false;
 }
 
