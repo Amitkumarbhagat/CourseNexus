@@ -31,6 +31,9 @@ public class CourseService {
     }
 
     public Course createCourse(Course course) {
+        if (course.getIsApproved() == null) {
+            course.setIsApproved(false);
+        }
         return courseRepository.save(course);
     }
 
@@ -43,7 +46,7 @@ public class CourseService {
             existingCourse.setPrice(updatedCourse.getPrice());
             existingCourse.setInstructor(updatedCourse.getInstructor());
             existingCourse.setY_link(updatedCourse.getY_link());
-            existingCourse.setApproved(updatedCourse.isApproved());
+            existingCourse.setIsApproved(updatedCourse.getIsApproved());
             return courseRepository.save(existingCourse);
         }
         return null;
