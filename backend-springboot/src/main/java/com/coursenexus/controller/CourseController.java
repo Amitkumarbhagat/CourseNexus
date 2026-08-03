@@ -19,14 +19,14 @@ public class CourseController {
     private CourseService courseService;
 
     @GetMapping
-    @Cacheable(value = "courses")
+    @Cacheable(value = "courses", key = "'approved'")
     public List<Course> getAllCourses() {
         return courseService.getAllApprovedCourses();
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/all")
-    @Cacheable(value = "courses")
+    @Cacheable(value = "courses", key = "'all'")
     public List<Course> getAllCoursesAdmin() {
         return courseService.getAllCourses();
     }
@@ -69,7 +69,7 @@ public class CourseController {
     public Course approveCourse(@PathVariable UUID id) {
         Course course = courseService.getCourseById(id);
         if (course != null) {
-            course.setApproved(true);
+            course.setIsApproved(true);
             return courseService.updateCourse(id, course);
         }
         return null;
