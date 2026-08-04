@@ -27,7 +27,7 @@ public class AIController {
         try {
             String prompt = "Write a professional, engaging 3-line course description for a course titled: '" + courseName + "'. Do not use formatting like bold or asterisks. Keep it plain text and highly convincing for an e-learning platform.";
             
-            String apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + geminiApiKey;
+            String apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=" + geminiApiKey;
 
             // Construct JSON request body
             JSONObject requestBody = new JSONObject();
