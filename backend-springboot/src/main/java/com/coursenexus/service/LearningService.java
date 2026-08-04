@@ -64,15 +64,7 @@ public class LearningService {
             learning.setCourse(course);
             learningRepository.save(learning);
 
-            if (course.getPrice() > 0) {
-                com.coursenexus.entity.Payment payment = new com.coursenexus.entity.Payment();
-                payment.setUser(user);
-                payment.setCourse(course);
-                payment.setAmount(course.getPrice());
-                payment.setPaymentDate(java.time.LocalDateTime.now());
-                payment.setStatus("COMPLETED");
-                paymentRepository.save(payment);
-            }
+            // Payment record is handled by PaymentController for paid courses
 
             return "Enrolled successfully";
         }

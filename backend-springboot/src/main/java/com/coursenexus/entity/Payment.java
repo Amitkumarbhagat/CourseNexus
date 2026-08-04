@@ -33,4 +33,7 @@ public class Payment {
     private LocalDateTime paymentDate;
 
     private String status;
+
+    @Column(name = "razorpay_payment_id")
+    private String razorpayPaymentId;
 }

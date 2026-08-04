@@ -97,6 +97,7 @@ public class PaymentController {
                 payment.setAmount(request.getAmount());
                 payment.setPaymentDate(LocalDateTime.now());
                 payment.setStatus("SUCCESS");
+                payment.setRazorpayPaymentId(request.getRazorpayPaymentId());
                 paymentRepository.save(payment);
 
                 // Enroll user

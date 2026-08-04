@@ -62,7 +62,9 @@ function DPayments({ instructorId = null }) {
               <tbody>
                 {payments.map((payment) => (
                   <tr key={payment.id}>
-                    <td className="py-3 text-muted small">{payment.id.substring(0, 8)}...</td>
+                    <td className="py-3 text-muted small">
+                      {payment.razorpayPaymentId ? payment.razorpayPaymentId : payment.id.substring(0, 8) + '...'}
+                    </td>
                     <td className="py-3 fw-medium text-dark">{payment.course?.course_name || 'N/A'}</td>
                     <td className="py-3 text-muted small">{payment.user?.email || 'N/A'}</td>
                     <td className="py-3 fw-bold text-dark">₹{payment.amount}</td>
