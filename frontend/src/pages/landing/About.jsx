@@ -93,11 +93,11 @@ function About() {
                   <FontAwesomeIcon icon={faMapMarkerAlt} className="fs-5" />
                 </div>
                 <div>
-                  <h5 className="fw-bold mb-1">CDAC Kharghar</h5>
+                  <h5 className="fw-bold mb-1">Nakshatra Garden</h5>
                   <p className="text-muted mb-0">
-                    Raintree Marg, Near Bharati Vidyapeeth, <br />
-                    Sector 7, CBD Belapur, <br />
-                    Navi Mumbai, Maharashtra 400614
+                    Silvassa, <br />
+                    Dadra and Nagar Haveli and Daman and Diu <br />
+                    396230
                   </p>
                 </div>
               </div>
@@ -108,14 +108,14 @@ function About() {
             <Col lg={7}>
               <div className="rounded-4 overflow-hidden shadow-sm" style={{ height: "350px" }}>
                 <iframe 
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3771.44265721832!2d73.0543621!3d19.0252877!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c24cce39457b%3A0x8bd69eab297890b0!2sCentre%20for%20Development%20of%20Advanced%20Computing%20(CDAC)!5e0!3m2!1sen!2sin!4v1684123456789!5m2!1sen!2sin" 
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3741.018599432657!2d72.9961233!3d20.2785513!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be0d0a793a39e83%3A0xb2c74d6fba5a363a!2sNakshatra%20Van%20Garden!5e0!3m2!1sen!2sin!4v1684123456789!5m2!1sen!2sin" 
                   width="100%" 
                   height="100%" 
                   style={{ border: 0 }} 
                   allowFullScreen="" 
                   loading="lazy" 
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="CDAC Kharghar Map"
+                  title="Nakshatra Garden Map"
                 ></iframe>
               </div>
             </Col>

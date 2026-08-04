@@ -44,7 +44,7 @@ function Footer() {
                 <span className="text-primary me-3 mt-1"><i className="bi bi-geo-alt-fill"></i></span>
                 <div>
                   <strong className="text-white d-block mb-1">Address</strong>
-                  CDAC, Sector 7, CBD Belapur, Navi Mumbai
+                  Nakshatra Garden, Silvassa, Dadra and Nagar Haveli
                 </div>
               </li>
               <li className="mb-3 d-flex align-items-start">
