@@ -62,7 +62,10 @@ function CourseInfo() {
       return;
     }
 
-    if (course.price && course.price > 0 && course.price.toString().toLowerCase() !== "free") {
+    const priceStr = course.price ? course.price.toString() : "0";
+    const numericPrice = parseInt(priceStr.replace(/[^0-9]/g, ''), 10) || 0;
+
+    if (numericPrice > 0 && priceStr.toLowerCase() !== "free") {
       setPaymentModalVisible(true);
     } else {
       processEnrollment();
@@ -71,7 +74,10 @@ function CourseInfo() {
 
   const processEnrollment = async () => {
     try {
-      if (course.price && course.price > 0 && course.price.toString().toLowerCase() !== "free") {
+      const priceStr = course.price ? course.price.toString() : "0";
+      const numericPrice = parseInt(priceStr.replace(/[^0-9]/g, ''), 10) || 0;
+
+      if (numericPrice > 0 && priceStr.toLowerCase() !== "free") {
         // Razorpay Payment Flow
         const amount = parseInt(course.price.toString().replace(/[^0-9]/g, ''), 10);
         const orderRes = await paymentService.createOrder({ courseId: course.course_id, userId, amount });
