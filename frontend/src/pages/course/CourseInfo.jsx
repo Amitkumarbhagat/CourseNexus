@@ -5,6 +5,7 @@ import { Rate, message, Modal } from "antd";
 import Navbar from "../../Components/common/Navbar";
 import { courseService } from "../../api/course.service";
 import { learningService } from "../../api/learning.service";
+import { paymentService } from "../../api/payment.service";
 
 function CourseInfo() {
   const { id } = useParams();
@@ -70,21 +71,75 @@ function CourseInfo() {
 
   const processEnrollment = async () => {
     try {
-      const res = await learningService.enrollCourse(userId, course.course_id);
-      if (res.success && res.data === "Enrolled successfully") {
-        message.success("Course Enrolled successfully");
-        setPaymentModalVisible(false);
-        setTimeout(() => navigate(`/course/${course.course_id}`), 2000);
-      } else if (res.success && res.data === "Course already enrolled") {
-        message.info("You are already enrolled in this course");
-        setPaymentModalVisible(false);
-        setIsEnrolled(true);
+      if (course.price && course.price > 0 && course.price.toString().toLowerCase() !== "free") {
+        // Razorpay Payment Flow
+        const amount = parseInt(course.price.toString().replace(/[^0-9]/g, ''), 10);
+        const orderRes = await paymentService.createOrder({ courseId: course.course_id, userId, amount });
+        
+        if (!orderRes.success) {
+          message.error("Failed to initiate payment");
+          return;
+        }
+
+        const options = {
+          key: "rzp_test_TLlt7rOJu3XzOF", // Razorpay Test Key
+          amount: amount * 100,
+          currency: "INR",
+          name: "CourseNexus Academy",
+          description: course.course_name,
+          order_id: JSON.parse(orderRes.data).id,
+          handler: async function (response) {
+            const verifyRes = await paymentService.verifyPayment({
+              razorpayOrderId: response.razorpay_order_id,
+              razorpayPaymentId: response.razorpay_payment_id,
+              razorpaySignature: response.razorpay_signature,
+              courseId: course.course_id,
+              userId,
+              amount
+            });
+
+            if (verifyRes.success) {
+              message.success("Payment successful! Course Enrolled.");
+              setPaymentModalVisible(false);
+              setTimeout(() => navigate(`/course/${course.course_id}`), 2000);
+            } else {
+              message.error("Payment verification failed");
+            }
+          },
+          prefill: {
+            name: "Student",
+            email: "student@coursenexus.com",
+            contact: "9999999999"
+          },
+          theme: {
+            color: "#0d6efd"
+          }
+        };
+
+        const rzp = new window.Razorpay(options);
+        rzp.on("payment.failed", function (response) {
+          message.error(response.error.description || "Payment Failed");
+        });
+        rzp.open();
+        
       } else {
-        message.error("Failed to enroll");
+        // Free Course Flow
+        const res = await learningService.enrollCourse(userId, course.course_id);
+        if (res.success && res.data === "Enrolled successfully") {
+          message.success("Course Enrolled successfully");
+          setPaymentModalVisible(false);
+          setTimeout(() => navigate(`/course/${course.course_id}`), 2000);
+        } else if (res.success && res.data === "Course already enrolled") {
+          message.info("You are already enrolled in this course");
+          setPaymentModalVisible(false);
+          setIsEnrolled(true);
+        } else {
+          message.error("Failed to enroll");
+        }
       }
     } catch (err) {
       console.error(err);
-      message.error("Failed to enroll");
+      message.error("Failed to process enrollment");
     }
   };
 
@@ -269,10 +324,10 @@ function CourseInfo() {
             className="w-100 py-3 fw-bold fs-5 mb-3 d-flex align-items-center justify-content-center gap-2"
             onClick={processEnrollment}
           >
-            <i className="bi bi-credit-card"></i> Pay & Enroll
+            <i className="bi bi-credit-card"></i> Proceed to Pay
           </Button>
           <p className="text-muted small d-flex justify-content-center align-items-center gap-1">
-            <i className="bi bi-shield-lock-fill"></i> Secure simulated payment
+            <i className="bi bi-shield-lock-fill"></i> Secure payment via Razorpay
           </p>
         </div>
       </Modal>
