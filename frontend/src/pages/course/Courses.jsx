@@ -256,7 +256,7 @@ function Courses() {
                         <Button
                           variant="primary"
                           className="w-100 fw-bold py-2"
-                          onClick={() => initiateEnrollment(course)}
+                          onClick={() => navigate(`/course-info/${course.course_id}`)}
                         >
                           Enroll Now
                         </Button>
