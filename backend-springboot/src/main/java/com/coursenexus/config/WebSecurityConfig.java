@@ -67,7 +67,10 @@ public class WebSecurityConfig {
 
                         .requestMatchers("/api/enrollments/**").hasAnyRole("USER", "ADMIN", "INSTRUCTOR")
                         .requestMatchers("/api/learning/**").hasAnyRole("USER", "ADMIN", "INSTRUCTOR")
-                        .requestMatchers("/api/payments/**").hasAnyRole("ADMIN", "INSTRUCTOR")
+                        .requestMatchers("/api/payments/all").hasRole("ADMIN")
+                        .requestMatchers("/api/payments/instructor/**").hasAnyRole("ADMIN", "INSTRUCTOR")
+                        .requestMatchers("/api/payments/createOrder", "/api/payments/verify").hasAnyRole("USER", "ADMIN", "INSTRUCTOR")
+                        .requestMatchers("/api/ai/**").hasAnyRole("ADMIN", "INSTRUCTOR")
                         .requestMatchers("/api/videos/**").hasAnyRole("USER", "ADMIN", "INSTRUCTOR")
 
                         .anyRequest().authenticated()
