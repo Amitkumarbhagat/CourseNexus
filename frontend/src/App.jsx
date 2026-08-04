@@ -2,7 +2,7 @@ import './App.css';
 import {BrowserRouter , Routes , Route} from 'react-router-dom';
 import Login from './pages/auth/login';
 import Register from './pages/auth/register'
-import ForgotPassword from './pages/Auth/ForgotPassword';
+import ForgotPassword from './pages/auth/ForgotPassword';
 import Course from './pages/course/course';
 import Courses from './pages/course/Courses';
 import CourseInfo from './pages/course/CourseInfo';
