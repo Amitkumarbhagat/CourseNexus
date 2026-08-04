@@ -69,10 +69,16 @@ function DPayments({ instructorId = null }) {
                     <td className="py-3 text-muted small">{payment.user?.email || 'N/A'}</td>
                     <td className="py-3 fw-bold text-dark">₹{payment.amount}</td>
                     <td className="py-3 text-muted small">
-                      {new Date(payment.paymentDate).toLocaleDateString()}
+                      {new Date(payment.paymentDate).toLocaleString('en-IN', {
+                        year: 'numeric', month: 'short', day: 'numeric',
+                        hour: '2-digit', minute: '2-digit'
+                      })}
                     </td>
                     <td className="py-3">
-                      <Badge bg="success" className="bg-opacity-10 text-success border border-success border-opacity-25 px-2 py-1 rounded-pill fw-medium">
+                      <Badge 
+                        bg={payment.status === 'SUCCESS' ? 'success' : (payment.status === 'FAILED' ? 'danger' : 'warning')} 
+                        className={`bg-opacity-10 text-${payment.status === 'SUCCESS' ? 'success' : (payment.status === 'FAILED' ? 'danger' : 'warning')} border border-${payment.status === 'SUCCESS' ? 'success' : (payment.status === 'FAILED' ? 'danger' : 'warning')} border-opacity-25 px-2 py-1 rounded-pill fw-medium`}
+                      >
                         {payment.status}
                       </Badge>
                     </td>
