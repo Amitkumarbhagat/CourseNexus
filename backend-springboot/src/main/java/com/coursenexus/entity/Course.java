@@ -32,10 +32,13 @@ public class Course {
 
     private UUID instructorId;
 
+    @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Column(length = 1000)
     private String p_link;
 
+    @Column(length = 1000)
     private String y_link;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
