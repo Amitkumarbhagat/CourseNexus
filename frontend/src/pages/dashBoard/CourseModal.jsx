@@ -2,6 +2,7 @@ import { Modal, Form, Input, InputNumber, message } from "antd";
 import { useState, useEffect } from "react";
 import { adminService } from "../../api/admin.service";
 import { authService } from "../../api/auth.service";
+import { aiService } from "../../api/ai.service";
 import { Spinner, Button } from "react-bootstrap";
 
 const { TextArea } = Input;
@@ -10,6 +11,7 @@ function CourseModal({ isOpen, onClose, onSuccess, courseId = null, mode = "add"
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [fetchingData, setFetchingData] = useState(false);
+  const [generatingAi, setGeneratingAi] = useState(false);
 
   const isEditMode = mode === "edit" || courseId !== null;
   const modalTitle = isEditMode ? "Edit Course" : "Add New Course";
@@ -100,6 +102,29 @@ function CourseModal({ isOpen, onClose, onSuccess, courseId = null, mode = "add"
     onClose();
   };
 
+  const handleGenerateAiDescription = async () => {
+    const currentName = form.getFieldValue("course_name");
+    if (!currentName || currentName.trim().length < 3) {
+      message.warning("Please enter a valid Course Name first!");
+      return;
+    }
+
+    setGeneratingAi(true);
+    try {
+      const res = await aiService.generateDescription(currentName);
+      if (res.success && res.data && res.data.description) {
+        form.setFieldsValue({ description: res.data.description });
+        message.success("AI Description generated successfully! ✨");
+      } else {
+        message.error(res.message || "Failed to generate description");
+      }
+    } catch (err) {
+      message.error("An error occurred while generating description");
+    } finally {
+      setGeneratingAi(false);
+    }
+  };
+
   return (
     <Modal
       title={modalTitle}
@@ -178,7 +203,23 @@ function CourseModal({ isOpen, onClose, onSuccess, courseId = null, mode = "add"
             </Form.Item>
 
             <Form.Item
-              label="Description"
+              label={
+                <div className="d-flex justify-content-between align-items-center w-100">
+                  <span>Description</span>
+                  <Button 
+                    variant="outline-primary" 
+                    size="sm" 
+                    className="py-0 px-2 ms-3 d-flex align-items-center"
+                    onClick={handleGenerateAiDescription}
+                    disabled={generatingAi}
+                    style={{ fontSize: '12px', height: '24px' }}
+                  >
+                    {generatingAi ? (
+                      <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-1" />
+                    ) : "✨ Generate AI"}
+                  </Button>
+                </div>
+              }
               name="description"
               rules={[
                 { required: true, message: "Description is required" },
@@ -186,8 +227,9 @@ function CourseModal({ isOpen, onClose, onSuccess, courseId = null, mode = "add"
                 { max: 500, message: "Description cannot exceed 500 characters" },
               ]}
               className="mb-0"
+              style={{ width: '100%' }}
             >
-              <TextArea rows={4} placeholder="Enter course description" showCount maxLength={500} />
+              <TextArea rows={4} placeholder="Enter course description or use AI to generate it!" showCount maxLength={500} />
             </Form.Item>
 
             <Form.Item
