@@ -27,6 +27,8 @@ services:
     depends_on:
       - mysqldb
       - redis
+    env_file:
+      - .env
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/coursenexus
       - SPRING_DATASOURCE_USERNAME=root
