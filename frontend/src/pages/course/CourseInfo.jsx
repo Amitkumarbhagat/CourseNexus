@@ -93,7 +93,7 @@ function CourseInfo() {
           currency: "INR",
           name: "CourseNexus Academy",
           description: course.course_name,
-          order_id: JSON.parse(orderRes.data).id,
+          order_id: typeof orderRes.data === 'string' ? JSON.parse(orderRes.data).id : orderRes.data.id,
           handler: async function (response) {
             const verifyRes = await paymentService.verifyPayment({
               razorpayOrderId: response.razorpay_order_id,
