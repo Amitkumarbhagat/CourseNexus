@@ -4,7 +4,7 @@ import { API_BASE_URL } from './constant';
 const generateDescription = async (courseName) => {
     try {
         const token = localStorage.getItem("token");
-        const response = await axios.post(`${API_BASE_URL}/ai/generate-description`, 
+        const response = await axios.post(`${API_BASE_URL}/api/ai/generate-description`, 
             { courseName }, 
             {
                 headers: {

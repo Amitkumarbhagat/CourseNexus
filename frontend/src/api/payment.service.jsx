@@ -20,7 +20,29 @@ async function getInstructorPayments(instructorId) {
   }
 }
 
+async function createOrder(orderData) {
+  try {
+    const { data } = await api.post("/api/payments/createOrder", orderData);
+    return { success: true, data };
+  } catch (error) {
+    console.error("Error creating order:", error);
+    return { success: false, error: "Could not create order" };
+  }
+}
+
+async function verifyPayment(verificationData) {
+  try {
+    const { data } = await api.post("/api/payments/verify", verificationData);
+    return { success: true, data };
+  } catch (error) {
+    console.error("Error verifying payment:", error);
+    return { success: false, error: "Could not verify payment" };
+  }
+}
+
 export const paymentService = {
   getAllPayments,
   getInstructorPayments,
+  createOrder,
+  verifyPayment,
 };
