@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { API_BASE_URL } from './constant';
 
-const API_URL = 'http://localhost:8080/api/payments';
+const API_URL = `${API_BASE_URL}/payments`;
 
 const createOrder = async (orderData) => {
     try {
