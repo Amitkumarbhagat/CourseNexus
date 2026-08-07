@@ -15,14 +15,14 @@ import java.util.UUID;
 public class DiscussionService {
 
     private final DiscussionRepository discussionRepository;
-    private final CourseService courseService;
+    private final com.coursenexus.repository.CourseRepository courseRepository;
 
     public List<Discussion> getDiscussionsCourse(UUID courseId) {
-        Course course = courseService.getCourseById(courseId);
+        Course course = courseRepository.findById(courseId).orElseThrow(() -> new RuntimeException("Course not found"));
         return discussionRepository.findByCourseAndParentIsNull(course);
     }
     public Discussion createDiscussion( DiscussionRequest discussionRequest) {
-        Course course = courseService.getCourseById(discussionRequest.getCourse_id());
+        Course course = courseRepository.findById(discussionRequest.getCourse_id()).orElseThrow(() -> new RuntimeException("Course not found"));
         Discussion discussion = new Discussion();
         discussion.setUserName(discussionRequest.getName());
         discussion.setCourse(course);

@@ -1,5 +1,6 @@
 package com.coursenexus.controller;
 
+import com.coursenexus.dto.CourseDTO;
 import com.coursenexus.entity.Course;
 import com.coursenexus.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,40 +21,40 @@ public class CourseController {
 
     @GetMapping
     @Cacheable(value = "courses", key = "'approved'")
-    public List<Course> getAllCourses() {
+    public List<CourseDTO> getAllCourses() {
         return courseService.getAllApprovedCourses();
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/all")
     @Cacheable(value = "courses", key = "'all'")
-    public List<Course> getAllCoursesAdmin() {
+    public List<CourseDTO> getAllCoursesAdmin() {
         return courseService.getAllCourses();
     }
 
     @GetMapping("/{id}")
-    public Course getCourseById(@PathVariable UUID id) {
+    public CourseDTO getCourseById(@PathVariable UUID id) {
         return courseService.getCourseById(id);
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'INSTRUCTOR')")
     @GetMapping("/instructor/{instructorId}")
-    public List<Course> getCoursesByInstructor(@PathVariable UUID instructorId) {
+    public List<CourseDTO> getCoursesByInstructor(@PathVariable UUID instructorId) {
         return courseService.getCoursesByInstructorId(instructorId);
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'INSTRUCTOR')")
     @PostMapping
     @CacheEvict(value = "courses", allEntries = true)
-    public Course createCourse(@RequestBody Course course) {
+    public CourseDTO createCourse(@RequestBody Course course) {
         return courseService.createCourse(course);
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'INSTRUCTOR')")
     @PutMapping("/{id}")
     @CacheEvict(value = "courses", allEntries = true)
-    public Course updateCourse(@PathVariable UUID id, @RequestBody Course updatedCourse) {
-        return courseService.updateCourse(id, updatedCourse);
+    public CourseDTO updateCourse(@PathVariable UUID id, @RequestBody Course course) {
+        return courseService.updateCourse(id, course);
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'INSTRUCTOR')")
@@ -66,12 +67,7 @@ public class CourseController {
     @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/{id}/approve")
     @CacheEvict(value = "courses", allEntries = true)
-    public Course approveCourse(@PathVariable UUID id) {
-        Course course = courseService.getCourseById(id);
-        if (course != null) {
-            course.setIsApproved(true);
-            return courseService.updateCourse(id, course);
-        }
-        return null;
+    public CourseDTO approveCourse(@PathVariable UUID id) {
+        return courseService.approveCourse(id);
     }
 }

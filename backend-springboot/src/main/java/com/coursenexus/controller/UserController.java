@@ -1,5 +1,6 @@
 package com.coursenexus.controller;
 
+import com.coursenexus.dto.UserDTO;
 import com.coursenexus.entity.User;
 import com.coursenexus.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,19 +22,19 @@ public class UserController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
-    public List<User> getAllUsers() {
+    public List<UserDTO> getAllUsers() {
         return userService.getAllUsers();
     }
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable UUID id) {
+    public UserDTO getUserById(@PathVariable UUID id) {
         return userService.getUserById(id);
     }
 
     @GetMapping("/{id}/profile-image")
     public ResponseEntity<byte[]> getProfileImage(@PathVariable UUID id) {
-        User user = userService.getUserById(id);
-        if (user == null || user.getProfileImage() == null) {
+        User user = userService.getUserEntityById(id);
+        if (user.getProfileImage() == null) {
             return ResponseEntity.notFound().build();
         }
 
@@ -53,7 +54,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable UUID id, @RequestBody User updatedUser) {
+    public UserDTO updateUser(@PathVariable UUID id, @RequestBody User updatedUser) {
         return userService.updateUser(id, updatedUser);
     }
 
@@ -63,7 +64,7 @@ public class UserController {
     }
 
     @GetMapping("/details")
-    public User getUserByEmail(@RequestParam String email) {
+    public UserDTO getUserByEmail(@RequestParam String email) {
         return userService.getUserByEmail(email);
     }
 }

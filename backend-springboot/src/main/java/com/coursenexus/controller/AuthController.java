@@ -61,10 +61,10 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<User>> register(@Valid @RequestBody User signUpRequest) {
+    public ResponseEntity<ApiResponse<com.coursenexus.dto.UserDTO>> register(@Valid @RequestBody User signUpRequest) {
         log.info("Registration attempt for email: {}", signUpRequest.getEmail());
 
-        User user = authService.createUser(signUpRequest);
+        com.coursenexus.dto.UserDTO user = authService.createUser(signUpRequest);
 
         log.info("User registered successfully: {}", signUpRequest.getEmail());
         return ResponseEntity.status(HttpStatus.CREATED)
